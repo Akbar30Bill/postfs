@@ -1,0 +1,2 @@
+#!/bin/sh
+export POSTFSPWD="POSTFSPWD/$1"

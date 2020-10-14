@@ -1,0 +1,3 @@
+#!/bin/sh
+psql -d postfs -c "insert into \"$POSTFSPWD\" (name, is_folder) values ('$1', true)"
+psql -Upostgres -d postfs -c "create table \"$POSTFSPWD\$1\"(name text, is_folder boolean)"
