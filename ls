@@ -1,2 +1,5 @@
-#!/bin/sh
-psql -d postfs -c "select * from \"$POSTFSPWD\""
+#!/bin/python
+import os
+import dbcon
+result = dbcon.runq(f'select * from "{dbcon.getpwd()}"', result_type = 999)
+print(result)
