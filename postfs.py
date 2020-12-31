@@ -21,6 +21,7 @@ class command:
     self.name = sysargs[0]
     self.op = sysargs[1]
   def run_in_transaction(self, cursor, op, cmd):
+    print(op, cmd)
     if op == 'init':
       postfs_init(cursor, None)
     elif op == 'cd':
