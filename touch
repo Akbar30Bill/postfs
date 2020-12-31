@@ -1,2 +1,0 @@
-#!/bin/sh
-psql -d postfs -c "insert into \"$POSTFSPWD\" (name, is_folder) values ('$1', false)"
