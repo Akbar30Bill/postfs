@@ -4,7 +4,8 @@ from postfs_init import *
 from postfs_cd import *
 from postfs_mkdir import *
 from postfs_touch import *
-from postfs_ls import * 
+from postfs_ls import *
+from postfs_rm import *
 
 class command:
   def __init__(self, sysargs):
@@ -29,6 +30,8 @@ class command:
       postfs_touch(cursor, self.cmd[2])
     elif self.op == 'ls':
       print(postfs_ls(cursor))
+    elif self.op == 'rm':
+      postfs_rm(cursor, self.cmd[2])
 
     self.connection.commit()
     cursor.close()

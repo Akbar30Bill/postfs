@@ -14,4 +14,3 @@ def postfs_init(cursor, config):
   cursor.execute('''
     insert into env (pwd) values ('/')
   ''')
-
