@@ -6,6 +6,8 @@ from postfs_mkdir import *
 from postfs_touch import *
 from postfs_ls import *
 from postfs_rm import *
+from postfs_binaryflush import *
+from postfs_binarypull import *
 
 class command:
   def __init__(self, sysargs):
@@ -32,6 +34,10 @@ class command:
       print(postfs_ls(cursor))
     elif self.op == 'rm':
       postfs_rm(cursor, self.cmd[2])
+    elif self.op == 'upload':
+      postfs_binaryflush(cursor, self.cmd[2], self.cmd[3])
+    elif self.op == 'download':
+      postfs_binarypull(cursor, self.cmd[2], self.cmd[3])
 
     self.connection.commit()
     cursor.close()
