@@ -38,6 +38,7 @@ class command:
       postfs_binaryflush(cursor, cmd[0], cmd[1])
     elif op == 'download':
       postfs_binarypull(cursor, cmd[0], cmd[1])
+    # TODO: postfs_cat
   def run(self):
     cursor = self.connection.cursor()
 
