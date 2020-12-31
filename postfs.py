@@ -20,24 +20,41 @@ class command:
     self.cmd = sysargs
     self.name = sysargs[0]
     self.op = sysargs[1]
+  def run_in_transaction(self, cursor, op, cmd):
+    if op == 'init':
+      postfs_init(cursor, None)
+    elif op == 'cd':
+      postfs_cd(cursor, cmd[0])
+    elif op == 'mkdir':
+      postfs_mkdir(cursor, cmd[0])
+    elif op == 'touch':
+      postfs_touch(cursor, cmd[0])
+    elif op == 'ls':
+      print(postfs_ls(cursor))
+    elif op == 'rm':
+      postfs_rm(cursor, cmd[0])
+    elif op == 'upload':
+      postfs_binaryflush(cursor, cmd[0], cmd[1])
+    elif op == 'download':
+      postfs_binarypull(cursor, cmd[0], cmd[1])
   def run(self):
     cursor = self.connection.cursor()
-    if self.op == 'init':
-      postfs_init(cursor, None)
-    elif self.op == 'cd':
-      postfs_cd(cursor, self.cmd[2])
-    elif self.op == 'mkdir':
-      postfs_mkdir(cursor, self.cmd[2])
-    elif self.op == 'touch':
-      postfs_touch(cursor, self.cmd[2])
-    elif self.op == 'ls':
-      print(postfs_ls(cursor))
-    elif self.op == 'rm':
-      postfs_rm(cursor, self.cmd[2])
-    elif self.op == 'upload':
-      postfs_binaryflush(cursor, self.cmd[2], self.cmd[3])
-    elif self.op == 'download':
-      postfs_binarypull(cursor, self.cmd[2], self.cmd[3])
+
+    if self.op == 'start-transaction':
+      while True:
+        cmd = input('#> ').split()
+        if cmd[0] == 'commit':
+          self.connection.commit()
+          cursor.close()
+          return
+        elif cmd[0] == 'abort':
+          self.connection.rollback()
+          cursor.close()
+          return
+        else:
+          self.run_in_transaction(cursor, cmd[0], cmd[1:])
+    else:
+      self.run_in_transaction(cursor, self.op, self.cmd[2:])
 
     self.connection.commit()
     cursor.close()
